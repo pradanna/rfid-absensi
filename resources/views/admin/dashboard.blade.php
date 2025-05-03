@@ -8,10 +8,10 @@
                 <div class="content">
                     <div class="stat">
                         <p class="title">Jumlah Siswa</p>
-                        <p class="val" id="totalSiswa">0</p>
+                        <p class="val" id="totalSiswa">{{ $totalSiswa }}</p>
                     </div>
                     <div class="report">
-                        <p><span class="down" id="siswaAktif">0</span> siswa aktif terdaftar.</p>
+                        {{-- <p><span class="down" id="siswaAktif">{{ $totalSiswa }}</span> siswa aktif terdaftar.</p> --}}
                     </div>
                 </div>
                 <div class="icon-container">
@@ -23,10 +23,10 @@
                 <div class="content">
                     <div class="stat">
                         <p class="title">Jumlah Kelas</p>
-                        <p class="val" id="totalKelas">0</p>
+                        <p class="val" id="totalKelas">{{ $totalKelas }}</p>
                     </div>
                     <div class="report">
-                        <p><span class="down" id="kelasAktif">0</span> kelas aktif.</p>
+                        {{-- <p><span class="down" id="kelasAktif">{{ $kelasAktif }}</span> kelas aktif.</p> --}}
                     </div>
                 </div>
                 <div class="icon-container">
@@ -38,10 +38,10 @@
                 <div class="content">
                     <div class="stat">
                         <p class="title">Jadwal Hari Ini</p>
-                        <p class="val" id="jadwalHariIni">0</p>
+                        <p class="val" id="jadwalHariIni">{{ $jadwalHariIni }}</p>
                     </div>
                     <div class="report">
-                        <p><span class="down" id="jadwalAktif">0</span> jadwal berjalan hari ini.</p>
+                        {{-- <p><span class="down" id="jadwalAktif">{{ $jadwalAktif }}</span> jadwal berjalan hari ini.</p> --}}
                     </div>
                 </div>
                 <div class="icon-container">
@@ -53,16 +53,17 @@
                 <div class="content">
                     <div class="stat">
                         <p class="title">Siswa Sudah Absen</p>
-                        <p class="val" id="siswaAbsen">0</p>
+                        <p class="val" id="siswaAbsen">{{ $siswaAbsen }}</p>
                     </div>
                     <div class="report">
-                        <p><span class="down" id="siswaAbsenHariIni">0</span> siswa absen hari ini.</p>
+
                     </div>
                 </div>
                 <div class="icon-container">
                     <span class="material-symbols-outlined">check_circle</span>
                 </div>
             </a>
+
 
         </div>
         <!-- Tabel Absensi Hari Ini -->

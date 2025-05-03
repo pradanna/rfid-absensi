@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Models\ClassRoom;
 use App\Models\ScheduleSubject;
+use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,21 @@ class AdminController extends Controller
 
         // Filter berdasarkan tanggal hari ini
         $query->whereDate('date', $today);
+
+
+        // Ambil data jumlah siswa
+        $totalSiswa = Student::count();
+
+        // Ambil data jumlah kelas
+        $totalKelas = ClassRoom::count();
+
+        // Ambil data jadwal hari ini
+        $jadwalHariIni = ScheduleSubject::where('day', now()->isoFormat('E'))->count();
+
+        // Ambil data siswa yang sudah absen hari ini
+        $siswaAbsen = Attendance::whereDate('date', now()->toDateString())->count();
+        $siswaAbsenHariIni = Attendance::whereDate('date', now()->toDateString())->where('status', 'hadir')->count();
+
 
         if ($request->filled('class_id')) {
             $query->whereHas('scheduleSubject', fn($q) => $q->where('class_id', $request->class_id));
@@ -35,6 +51,11 @@ class AdminController extends Controller
             'classes' => ClassRoom::all(),
             'subjects' => ScheduleSubject::with('subject')->get()->pluck('subject')->unique('id'),
             'filters' => $request->only('class_id', 'subject_id'),
+            'totalSiswa' => $totalSiswa,
+            'totalKelas' => $totalKelas,
+            'jadwalHariIni' => $jadwalHariIni,
+            'siswaAbsen' => $siswaAbsen,
+            'siswaAbsenHariIni' => $siswaAbsenHariIni,
         ]);
     }
 }

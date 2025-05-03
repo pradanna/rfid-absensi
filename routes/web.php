@@ -5,6 +5,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\guru\GuruDashboardController;
+use App\Http\Controllers\guru\JadwalController;
+use App\Http\Controllers\guru\TeacherAttendanceController;
 use App\Http\Controllers\ScheduleSubjectController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
@@ -69,7 +72,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
-    Route::get('/dashboard/guru', function () {
-        return view('guru.dashboard');
-    })->middleware(['auth', 'role:teacher']);
-});
+    Route::get('/guru', [GuruDashboardController::class, 'index']);
+    Route::get('/guru/jadwal', [JadwalController::class, 'index']);
+    Route::get('/guru/attendances', [TeacherAttendanceController::class, 'index'])->name('guru.attendance.index');
+})->middleware(['auth', 'role:teacher']);

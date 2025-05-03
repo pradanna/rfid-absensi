@@ -48,7 +48,7 @@ class TeacherController extends Controller
 
         // Membuat user baru
         $user = User::create([
-            'username' => $request->nip, // Gunakan NIP sebagai username (atau sesuaikan)
+            'username' => $request->username,
             'password' => Hash::make('password'), // Set default password, sebaiknya ubah ini
             'role' => 'teacher', // Set role sebagai teacher
         ]);

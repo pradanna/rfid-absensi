@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Admin || Genos Template</title>
+    <title>Guru || Admin Panel</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -28,8 +28,8 @@
         rel="stylesheet">
 
     {{-- DATA TABLES --}}
-    <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
-    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
 
 
     {{-- ICON --}}
@@ -54,7 +54,7 @@
 
     <div class="d-flex admin ">
         {{-- SIDEBAR --}}
-        <div class="sidebar ">
+        <div class="sidebar">
             <div class="logo-container">
                 <img class="company-logos" src="{{ asset('images/local/logo-panjang.png') }}" />
                 <img class="company-logos-minimize" src="{{ asset('images/local/logo-pendek.png') }}" />
@@ -63,104 +63,43 @@
 
                 <ul>
                     <li>
-                        <a class=" menu {{ Request::is('admin') ? 'active' : '' }} tooltip" href="/admin"><span
-                                class="material-symbols-outlined">
-                                dashboard
-                            </span>
-                            <span class="text-menu"> Beranda</span>
+                        <a class="menu {{ Request::is('guru') || Request::is('/') ? 'active' : '' }} tooltip"
+                            href="/guru">
+                            <span class="material-symbols-outlined">dashboard</span>
+                            <span class="text-menu">Beranda</span>
                             <span class="tooltiptext">Beranda</span>
                         </a>
                     </li>
 
-
                     <li>
-                        <a class="menu tooltip {{ Request::is('admin/profile') ? 'active' : '' }}"
-                            href="/admin/profile"><span class="material-symbols-outlined">
-                                account_circle
-                            </span>
-                            <span class="text-menu"> Profile</span>
-                            <span class="tooltiptext">Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="menu tooltip {{ Request::is('admin/service') ? 'active' : '' }}"
-                            href="/admin/service">
-
-
-                            <span class="material-symbols-outlined">
-                                home_repair_service
-                            </span>
-                            <span class="text-menu"> Service</span>
-                            <span class="tooltiptext">Service</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="menu tooltip {{ Request::is('admin/artikel') ? 'active' : '' }}"
-                            href="/admin/artikel">
-
-                            <span class="material-symbols-outlined">
-                                newsmode
-                            </span>
-                            <span class="text-menu"> Artikel</span>
-                            <span class="tooltiptext">Artikel</span>
+                        <a class="menu tooltip {{ Request::is('guru/jadwal') ? 'active' : '' }}" href="/guru/jadwal">
+                            <span class="material-symbols-outlined">event_note</span>
+                            <span class="text-menu">Jadwal</span>
+                            <span class="tooltiptext">Jadwal</span>
                         </a>
                     </li>
 
-
-
-
-
                     <li>
-                        <a class="menu tooltip {{ Request::is('admin/portfolio') ? 'active' : '' }}"
-                            href="/admin/portfolio">
-
-
-                            <span class="material-symbols-outlined">
-                                work_history
-                            </span>
-                            <span class="text-menu"> Portfolio</span>
-                            <span class="tooltiptext">Portfolio</span>
+                        <a class="menu tooltip {{ Request::is('guru/attendances') ? 'active' : '' }}"
+                            href="/guru/attendances">
+                            <span class="material-symbols-outlined">fact_check</span>
+                            <span class="text-menu">Absensi</span>
+                            <span class="tooltiptext">Absensi</span>
                         </a>
                     </li>
-                    <li>
-                        <a class="menu tooltip {{ Request::is('admin/clients') ? 'active' : '' }}"
-                            href="/admin/clients">
 
-
-                            <span class="material-symbols-outlined">
-                                group
-                            </span>
-                            <span class="text-menu"> Clients</span>
-                            <span class="tooltiptext">Clients</span>
+                    {{-- <li>
+                        <a class="menu tooltip {{ Request::is('guru/profile') ? 'active' : '' }}" href="/guru/profile">
+                            <span class="material-symbols-outlined">account_circle</span>
+                            <span class="text-menu">Profil</span>
+                            <span class="tooltiptext">Profil</span>
                         </a>
-                    </li>
-                    <li>
-                        <a class="menu tooltip {{ Request::is('admin/testimoni') ? 'active' : '' }}"
-                            href="/admin/testimoni">
-
-                            <span class="material-symbols-outlined">
-                                forum
-                            </span>
-                            <span class="text-menu"> Testimoni</span>
-                            <span class="tooltiptext">Testimoni</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="menu tooltip {{ Request::is('admin/about') ? 'active' : '' }}" href="/admin/about">
-
-
-                            <span class="material-symbols-outlined">
-                                info
-                            </span>
-                            <span class="text-menu"> About</span>
-                            <span class="tooltiptext">About</span>
-                        </a>
-                    </li>
+                    </li> --}}
                 </ul>
 
                 <div class="footer">
                     <p class="top">Login Sebagai</p>
-                    <p class="bot">Admin</p>
+                    <p class="bot">Guru</p>
                 </div>
             </div>
         </div>
@@ -171,7 +110,7 @@
 
             {{-- BOTTOMBAR --}}
             <div class="bottombar">
-                <a href="/admin/dashboard" class="nav-button {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                <a href="/guru" class="nav-button {{ Request::is('/guru') ? 'active' : '' }}">
                     <span class="material-symbols-outlined ">
                         dashboard
                     </span>
@@ -205,7 +144,7 @@
                         </span>
                     </a>
                 </div>
-                <div class="end">
+                {{-- <div class="end">
                     <a class="iconbtn " id="dropdownnotif" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="badges">
                         </span>
@@ -221,29 +160,12 @@
                         </div>
                         <hr>
                         <div class="notif-container" id="notif">
-                            {{-- <div class="notif-item unread"> --}}
-                            {{--                                                    <div class="content-container"> --}}
-                            {{--                                                        <p class="title-content">Bagus Want to buy something </p> --}}
-                            {{--                                                        <p class="body-content">You Have new transaction from bagus yanuar, please check! --}}
-                            {{--                                                        </p> --}}
-                            {{--                                                    </div> --}}
-                            {{--                                                    <hr> --}}
 
-                            {{-- </div> --}}
-                            {{--                                                <div class="notif-item"> --}}
-
-                            {{--                                                    <div class="content-container"> --}}
-                            {{--                                                        <p class="title-content">Bagus Want to buy something </p> --}}
-                            {{--                                                        <p class="body-content">You Have new transaction from bagus yanuar, please check! --}}
-                            {{--                                                        </p> --}}
-                            {{--                                                    </div> --}}
-                            {{--                                                    <hr> --}}
-
-                            {{--                                                </div> --}}
                         </div>
                         <hr>
                         <div class="footer-container"><a href="/admin/inbox">See All Notifications</a></div>
-                    </div>
+                    </div> --}}
+                <div class="end">
                     <div class="dropdown">
                         <div class="profile-button">
                             <div class="content">
@@ -253,8 +175,8 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <p class="user">User</p>
-                                    <p class="email">user@gmail.com</p>
+                                    <p class="user">{{ auth()->user()->teacher->name }}</p>
+                                    {{-- <p class="email">user@gmail.com</p> --}}
                                     <hr>
                                     <a class="logout" href="/logout">Logout</a>
 
@@ -264,17 +186,23 @@
                     </div>
                 </div>
             </div>
-
             {{-- CONTENT --}}
             <div class="gen-content">
                 @yield('content')
             </div>
+        </div>
 
-            <div class="bottom-mobile">
 
-            </div>
+
+        <div class="bottom-mobile">
+
         </div>
     </div>
+    </div>
+
+
+
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -283,57 +211,17 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
 
-    {{--    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.4/dist/sweetalert2.all.min.js" --}}
-    {{--            integrity="sha256-SrfCZ78qS4YeGNB8awBuKLepMKtLR86uP4oomyg4pUc=" crossorigin="anonymous"></script> --}}
     <script type="text/javascript" src="{{ asset('js/debounce.js') }}"></script>
 
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+
     <script src="{{ asset('js/admin-genosstyle.js') }}"></script>
-    <script src="{{ asset('js/dialog.js') }}"></script>
-    <script src="{{ asset('js/datatable.js') }}"></script>
-    <script src="{{ asset('js/dropify/js/dropify.js') }}"></script>
 
-    <script>
-        getAjaxResNotif()
-
-        function getAjaxResNotif() {
-            let notif = $('#notif')
-            // notif.empty()
-            $.get('{{ route('admin.dashboard.inbox.notif') }}', function(res, x, s) {
-                if (s.status == 200) {
-                    $.each(res, function(k, v) {
-                        let stat = v.isNew ? 'unread' : ''
-                        notif.append('<div class="notif-item ' + stat + '">' +
-                            '<div class="content-container">' +
-                            ' <p class="title-content">' + v.name + '</p>' +
-                            ' <p class="body-content maxlines">' + v.message + '</p>' +
-                            ' </div>' +
-                            ' <hr>' +
-                            '</div>');
-                    })
-                }
-            })
-        }
-
-        jQuery.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
-            return {
-                "iStart": oSettings._iDisplayStart,
-                "iEnd": oSettings.fnDisplayEnd(),
-                "iLength": oSettings._iDisplayLength,
-                "iTotal": oSettings.fnRecordsTotal(),
-                "iFilteredTotal": oSettings.fnRecordsDisplay(),
-                "iPage": oSettings._iDisplayLength === -1 ?
-                    0 : Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
-                "iTotalPages": oSettings._iDisplayLength === -1 ?
-                    0 : Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength)
-            };
-        };
-    </script>
     @yield('morejs')
-    <script type="text/javascript" src="{{ asset('js/debounceDefault.js') }}"></script>
+
 
 </body>
 

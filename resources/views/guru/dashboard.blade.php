@@ -1,197 +1,88 @@
-@extends('admin.base')
+@extends('guru.base')
 
 @section('content')
     <div class="dashboard">
         {{-- STATUS --}}
         <div class="status-container icon-circle">
-            <a class="card-status color1" href="/admin/datatitik">
+            <a class="card-status color1" href="#">
                 <div class="content">
                     <div class="stat">
-                        <p class="title">Jumlah Titik</p>
-                        <p class="val" id="titikAll">0</p>
+                        <p class="title">Jumlah Siswa</p>
+                        <p class="val" id="totalSiswa">{{ $jumlahSiswa }}</p>
                     </div>
-
                     <div class="report">
-                        <p><span class="down" id="titikPublic">0</span> Jumlah titik yang ditampilkan untuk public.</p>
+                        <p><span class="down">{{ $jumlahSiswa }}</span> siswa yang Anda ajar.</p>
                     </div>
                 </div>
-
                 <div class="icon-container">
-                    <span class="material-symbols-outlined">
-                        assignment
-                    </span>
+                    <span class="material-symbols-outlined">group</span>
                 </div>
             </a>
 
-            <a class="card-status color2" href="/admin/datatitik">
+            <a class="card-status color2" href="#">
                 <div class="content">
                     <div class="stat">
-                        <p class="title">Jumlah Artikel</p>
-                        <p class="val article">0</p>
+                        <p class="title">Jadwal Hari Ini</p>
+                        <p class="val" id="jadwalHariIni">{{ $jumlahJadwalHariIni }}</p>
                     </div>
-
                     <div class="report">
-                        <p><span class="down article">0</span> Jumlah artikel.</p>
+                        <p><span class="down">{{ $jumlahJadwalHariIni }}</span> jadwal Anda hari ini.</p>
                     </div>
                 </div>
-
                 <div class="icon-container">
-                    <span class="material-symbols-outlined">
-                        event_available
-                    </span>
+                    <span class="material-symbols-outlined">event</span>
                 </div>
             </a>
 
-            <a class="card-status color3" href="/admin/datatitik">
+            {{-- <a class="card-status color4" href="#">
                 <div class="content">
                     <div class="stat">
-                        <p class="title">Jumlah Portfolio</p>
-                        <p class="val porto">0</p>
+                        <p class="title">Siswa Sudah Absen</p>
+                        <p class="val" id="siswaAbsen">{{ $jumlahAbsensiHariIni }}</p>
                     </div>
-
                     <div class="report">
-                        <p><span class="down porto">0</span> Titik portfolio.</p>
+                        <p><span class="down">{{ $jumlahAbsensiHariIni }}</span> siswa absen hari ini.</p>
                     </div>
                 </div>
-
                 <div class="icon-container">
-                    <span class="material-symbols-outlined">
-                        cast
-                    </span>
+                    <span class="material-symbols-outlined">check_circle</span>
                 </div>
-            </a>
-
-
+            </a> --}}
         </div>
 
-        {{-- Titik disewa --}}
-        <div class="menu-container  ">
-            <div class="menu overflow-hidden">
-                <div class="title-container">
-                    <p class="title">Inbox</p>
-                </div>
-                <table id="tabel" class="table table-striped nowrap " style="width:100%">
-                    <thead>
+        <!-- Tabel Absensi Hari Ini -->
+        <div class="mt-5">
+            <h2>Jadwal Anda Hari Ini</h2>
+
+            <table id="jadwalTable" class="table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Kelas</th>
+                        <th>Mata Pelajaran</th>
+                        <th>Jam Masuk</th>
+                        <th>Jam Selesai</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($jadwalHariIni as $jadwal)
                         <tr>
-                            <th>#</th>
-                            <th>Nama</th>
-                            <th>Nomor Whatsapp</th>
-                            <th>Pesan</th>
-                            <th style="width: 100px">Action</th>
-                            {{-- detail, ubah status pesanan --}}
+                            <td>{{ $jadwal->classRoom->name ?? 'N/A' }}</td>
+                            <td>{{ $jadwal->subject->nama_mapel ?? 'N/A' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($jadwal->time_in)->format('H:i') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($jadwal->time_out)->format('H:i') }}</td>
                         </tr>
-                    </thead>
-                    {{--                    <tbody> --}}
-                    {{--                    <tr> --}}
-                    {{--                        <td>Bagus</td> --}}
-                    {{--                        <td>0895178657</td> --}}
-                    {{--                        <td>Halo, saya mau pasang billboard untuk kota Solo 20 titik, gimana caranya ?</td> --}}
-                    {{--                        <td> --}}
-                    {{--                            <span class="d-flex gap-1"> --}}
-                    {{--                                <a class="btn-primary-sm" data-bs-toggle="modal" --}}
-                    {{--                                   data-bs-target="#modaldetail">Whatsapp</a> --}}
-                    {{--                                    <a class="btn-warning-sm" data-bs-toggle="modal" --}}
-                    {{--                                       data-bs-target="#modalubahpesanan">Hapus</a> --}}
-                    {{--                                </span> --}}
-                    {{--                        </td> --}}
-                    {{--                    </tr> --}}
-
-                    {{--                    </tbody> --}}
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Nama</th>
-                            <th>Nomor Whatsapp</th>
-                            <th>Pesan</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
-                </table>
-
-            </div>
-
+                    @endforeach
+                </tbody>
+            </table>
         </div>
+
     </div>
 @endsection
 
 @section('morejs')
-    <script script>
+    <script>
         $(document).ready(function() {
-            getAjaxRes('{{ route('admin.dashboard.titik') }}', $('#titikAll'), 'titik')
-            getAjaxRes('{{ route('admin.dashboard.titik.public') }}', $('#titikPublic'), 'titik')
-            getAjaxRes('{{ route('admin.dashboard.article') }}', $('.article'), 'article')
-            getAjaxRes('{{ route('admin.dashboard.portfolio') }}', $('.porto'), 'porto')
-        })
-
-        function getAjaxRes(url, content, variable) {
-            $.get(url, function(res, x, s) {
-                if (s.status == 200) {
-                    content.html(res[variable].toLocaleString())
-                }
-            })
-        }
-
-
-        show_datatable();
-
-        function show_datatable() {
-            let colums = [{
-                    className: "text-center",
-                    orderable: false,
-                    defaultContent: "",
-                    searchable: false
-                },
-                {
-                    data: 'name',
-                    name: 'name',
-                },
-                {
-                    data: 'phone',
-                    name: 'phone',
-                },
-                {
-                    data: 'message',
-                    name: 'message',
-                    render: function(data) {
-                        return '<span class="maxlines">' + data + '</span>'
-                    }
-                },
-                {
-                    className: "text-center",
-                    data: 'id',
-                    name: 'id',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, x, row) {
-                        let picPhone = row.phone;
-                        const first = picPhone.substring(0, 1);
-                        if (first == 0) {
-                            picPhone = '62' + picPhone.substring(1)
-                        }
-                        return '<span class="d-flex gap-1">' +
-                            ' <a class="btn-primary-sm" ' +
-                            '  target="_blank" href="https://wa.me/' + picPhone + '">Whatsapp</a>' +
-                            ' <a class="btn-warning-sm" id="deleteInbox" data-name="' + row.name + '" data-id="' +
-                            data + '" >Hapus</a>' +
-                            '</span>';
-                    }
-                },
-            ];
-            datatable('tabel', '{{ route('admin.dashboard.inbox.datatable') }}', colums)
-        }
-
-        $(document).on('click', '#deleteInbox', function() {
-            let form = {
-                '_token': '{{ csrf_token() }}',
-                'id': $(this).data('id')
-            }
-            deleteData('message ' + $(this).data('name'), form, '{{ route('admin.dashboard.inbox.delete') }}',
-                afterDelete)
-            return false
-        })
-
-        function afterDelete() {
-            $('#tabel').DataTable().ajax.reload(null, false);
-        }
+            $('#attendanceTable').DataTable();
+        });
     </script>
 @endsection

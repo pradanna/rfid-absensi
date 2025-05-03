@@ -174,7 +174,7 @@
                         </span>
                     </a>
                 </div>
-                <div class="end">
+                {{-- <div class="end">
                     <a class="iconbtn " id="dropdownnotif" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="badges">
                         </span>
@@ -190,29 +190,12 @@
                         </div>
                         <hr>
                         <div class="notif-container" id="notif">
-                            {{-- <div class="notif-item unread"> --}}
-                            {{--                                                    <div class="content-container"> --}}
-                            {{--                                                        <p class="title-content">Bagus Want to buy something </p> --}}
-                            {{--                                                        <p class="body-content">You Have new transaction from bagus yanuar, please check! --}}
-                            {{--                                                        </p> --}}
-                            {{--                                                    </div> --}}
-                            {{--                                                    <hr> --}}
 
-                            {{-- </div> --}}
-                            {{--                                                <div class="notif-item"> --}}
-
-                            {{--                                                    <div class="content-container"> --}}
-                            {{--                                                        <p class="title-content">Bagus Want to buy something </p> --}}
-                            {{--                                                        <p class="body-content">You Have new transaction from bagus yanuar, please check! --}}
-                            {{--                                                        </p> --}}
-                            {{--                                                    </div> --}}
-                            {{--                                                    <hr> --}}
-
-                            {{--                                                </div> --}}
                         </div>
                         <hr>
                         <div class="footer-container"><a href="/admin/inbox">See All Notifications</a></div>
-                    </div>
+                    </div> --}}
+                <div class="end">
                     <div class="dropdown">
                         <div class="profile-button">
                             <div class="content">
@@ -222,8 +205,7 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <p class="user">User</p>
-                                    <p class="email">user@gmail.com</p>
+                                    <p class="user">{{ auth()->user()->username }}</p>
                                     <hr>
                                     <a class="logout" href="/logout">Logout</a>
 
@@ -238,11 +220,12 @@
             <div class="gen-content">
                 @yield('content')
             </div>
-
-            <div class="bottom-mobile">
-
-            </div>
         </div>
+
+        <div class="bottom-mobile">
+
+        </div>
+    </div>
     </div>
 
 
