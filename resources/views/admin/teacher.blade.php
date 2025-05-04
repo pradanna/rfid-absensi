@@ -106,6 +106,23 @@
                                         <input type="text" name="no_hp" class="form-control"
                                             value="{{ $teacher->no_hp }}">
                                     </div>
+
+                                    {{-- Tambahan untuk akun --}}
+                                    <hr>
+                                    <div class="mb-3">
+                                        <label>Username</label>
+                                        <input type="text" name="username" class="form-control"
+                                            value="{{ $teacher->user->username ?? '' }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Password</label>
+                                        <input type="password" name="password" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Konfirmasi Password</label>
+                                        <input type="password" name="password_confirmation" class="form-control">
+                                    </div>
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-primary">Simpan</button>
@@ -114,6 +131,7 @@
                         </div>
                     </div>
                 @endforeach
+
 
             </div>
         </div>

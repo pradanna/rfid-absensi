@@ -30,13 +30,13 @@ class AttendanceController extends Controller
         $now = now();
         $todayDayNumber = $now->dayOfWeekIso; // 1 = Senin, 7 = Minggu
 
-        if ($todayDayNumber > 6) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Hari ini tidak ada absensi',
-                'phone' => $student->phone
-            ], 400);
-        }
+        // if ($todayDayNumber > 6) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => 'Hari ini tidak ada absensi',
+        //         'phone' => $student->phone
+        //     ], 400);
+        // }
 
         $scheduleSubjects = ScheduleSubject::where('class_id', $student->class_room_id)
             ->where('day', $todayDayNumber)

@@ -36,10 +36,13 @@ class TeacherController extends Controller
             'nip' => 'required|unique:teachers|max:255',
             'name' => 'required|max:255',
             'tanggal_lahir' => 'nullable|date',
-            'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan', // Update enum values
+            'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan',
             'alamat' => 'nullable|string',
             'no_hp' => 'nullable|max:20',
-            'user_id' => 'nullable|exists:users,id', // Pastikan tabel users ada
+
+            // Validasi user
+            'username' => 'required|string|max:255|unique:users,username',
+            'password' => 'required|string|min:6|confirmed',
         ]);
 
         if ($validator->fails()) {
@@ -49,18 +52,19 @@ class TeacherController extends Controller
         // Membuat user baru
         $user = User::create([
             'username' => $request->username,
-            'password' => Hash::make('password'), // Set default password, sebaiknya ubah ini
-            'role' => 'teacher', // Set role sebagai teacher
+            'password' => Hash::make($request->password),
+            'role' => 'guru',
         ]);
 
         // Membuat guru dan menghubungkannya dengan user
-        $teacher = Teacher::create(array_merge(
-            $request->all(),
-            ['user_id' => $user->id] // Hubungkan dengan ID user yang baru dibuat
+        Teacher::create(array_merge(
+            $request->only(['nip', 'name', 'tanggal_lahir', 'jenis_kelamin', 'alamat', 'no_hp']),
+            ['user_id' => $user->id]
         ));
 
         return redirect()->route('admin.teacher.index')->with('success', 'Data guru berhasil ditambahkan.');
     }
+
 
     /**
      * Display the specified resource.
@@ -81,26 +85,52 @@ class TeacherController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Teacher $teacher)
+    public function update(Request $request, $id)
     {
+        $teacher = Teacher::findOrFail($id);
+
         $validator = Validator::make($request->all(), [
-            'nip' => 'required|unique:teachers,nip,' . $teacher->id . '|max:255',
+            'nip' => 'required|max:255|unique:teachers,nip,' . $teacher->id,
             'name' => 'required|max:255',
             'tanggal_lahir' => 'nullable|date',
-            'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan', // Update enum values
+            'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan',
             'alamat' => 'nullable|string',
             'no_hp' => 'nullable|max:20',
-            'user_id' => 'nullable|exists:users,id', // Pastikan tabel users ada
+
+            // Validasi user
+            'username' => 'required|string|max:255|unique:users,username,' . $teacher->user_id,
+            'password' => 'nullable|string|min:6|confirmed',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $teacher->update($request->all());
+        // Update guru
+        $teacher->update([
+            'nip' => $request->nip,
+            'name' => $request->name,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'alamat' => $request->alamat,
+            'no_hp' => $request->no_hp,
+        ]);
+
+        // Update user
+        if ($teacher->user) {
+            $teacher->user->username = $request->username;
+
+            if ($request->filled('password')) {
+                $teacher->user->password = Hash::make($request->password);
+            }
+
+            $teacher->user->save();
+        }
 
         return redirect()->route('admin.teacher.index')->with('success', 'Data guru berhasil diperbarui.');
     }
+
+
 
     /**
      * Remove the specified resource from storage.
